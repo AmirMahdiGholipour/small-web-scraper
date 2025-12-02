@@ -42,27 +42,35 @@ while True:
 
         # Get new URL from user
         user_url = input("Enter url to scrape(it has to be from ThecnoLife Website and \nit has to be a product's page link(like the default links)): ")
-        all_urls.append(user_url)
-        save_url(all_urls)
-        print("✅ Url Successfully Saved")
+        try:
+            r = requests.get(user_url)
+            all_urls.append(user_url)
+            save_url(all_urls)
+            print("✅ Url Successfully Saved")
+        except requests.exceptions.RequestException as e:
+            print(f"❌Failed to fetch the URL: {e}")
 
     elif choice == "2":
 
         # Show results for all saved URLs
         for i, url in enumerate(all_urls, start=1):
-            r = requests.get(url)
-            data = r.text
-            soup = bs4.BeautifulSoup(data,"html.parser")
-            price_sel = soup.select(r"#__next > div.w-full > main > div > div > article.flex.w-full.items-start.justify-between.gap-8 > "
+            try:
+                r = requests.get(url)
+                data = r.text
+                soup = bs4.BeautifulSoup(data,"html.parser")
+                selector_key = (r"#__next > div.w-full > main > div > div > article.flex.w-full.items-start.justify-between.gap-8 > "
                                     r"section.relative.mt-10.w-\[309px\].pl-4.xl\:w-\[392px\].\32 xl\:mr-3.\32 xl\:mt-0.\32 xl\:min-h-\[678px\].\32 xl\:w-96.\32 xl\:pl-0 >"
                                     r" div > div.min-w-0.max-w-\[293px\].xl\:max-w-\[376px\].grow.\32 xl\:w-full.\32 xl\:max-w-4xl.\32 xl\:grow-0 >"
                                     r" div > div.rounded-2xl.shadow-1200.\32 md\:\!px-4.\32 md\:\!pt-4.xl\:\!p-6.relative.w-full.p-6.transition-all.bg-white >"
                                     r" div.flex.w-full.flex-col.items-center > div.flex.w-full.justify-end.px-4.pb-4.pt-5 >"
                                     r" div > div > div > p.text-\[19px\].font-semiBold.\!leading-5.xl\:text-\[22px\].text-primary-shade-1")
-            heading = soup.select("#pdp_name")
-            myPrice = price_sel[0]
-            product_name = heading[0]
-            print(f"📍{i}. Name: {product_name.text} \n Price: {myPrice.text}")
+                price_sel = soup.select(selector_key)
+                heading = soup.select("#pdp_name")
+                myPrice = price_sel[0]
+                product_name = heading[0]
+                print(f"📍{i}. Name: {product_name.text} \n Price: {myPrice.text} Toman")
+            except Exception as e:
+                print(f"❌Failed to scrape the URL {url}: {e}")
 
     # Exit the program
     elif choice == "3":
