@@ -58,10 +58,13 @@ you must change the value of `selector_key` inside the code.
 
 ### 🔧 How to Customize
 
-Inside the script, find this variable:
+Inside the script, find these variables and change it to whatever selector you like:
 
 ```python
-selector_key = "..."
+selector_key = "..." # For price of the product 
+```
+```python
+heading_selector = "..." # For name of the product
 ```
 
 # 💡 Tip
@@ -76,7 +79,7 @@ selector_key = "..."
 
 - Choose **Copy** → **Copy Selector**
 
-- Paste it into ```selector_key```
+- Paste it into ```selector_key``` OR ```heading_selector```
 
 Example: 
 ```python
