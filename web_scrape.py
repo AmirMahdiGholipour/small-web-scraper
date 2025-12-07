@@ -65,7 +65,8 @@ while True:
                                     r" div.flex.w-full.flex-col.items-center > div.flex.w-full.justify-end.px-4.pb-4.pt-5 >"
                                     r" div > div > div > p.text-\[19px\].font-semiBold.\!leading-5.xl\:text-\[22px\].text-primary-shade-1")
                 price_sel = soup.select(selector_key)
-                heading = soup.select("#pdp_name")
+                heading_selector = "#pdp_name"
+                heading = soup.select(heading_selector)
                 myPrice = price_sel[0]
                 product_name = heading[0]
                 print(f"📍{i}. Name: {product_name.text} \n Price: {myPrice.text} Toman")
